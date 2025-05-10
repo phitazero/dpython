@@ -9,8 +9,8 @@ prefix = "_ϕナ"
 
 PRELUDE = f"import json as {prefix}json"
 
-PRINT_TEMPLATE = f"print({prefix}json.dumps({{0}}, indent=4));print(\"\\n\")"
-DUMP_TEMPLATE = f"{prefix}json.dump({{0}}, open(\"{{1}}.json\", \"w\"), indent=4)"
+PRINT_TEMPLATE = f"{{0}}print({prefix}json.dumps({{1}}, indent=4));print(\"\\n\")"
+DUMP_TEMPLATE = f"{{0}}{prefix}json.dump({{1}}, open(\"{{2}}.json\", \"w\"), indent=4)"
 
 try: codeLines = open(sys.argv[1], "r").readlines()
 except FileNotFoundError:
@@ -21,14 +21,12 @@ except IndexError:
 	sys.exit()
 
 def repl(m):
-	var, dest = m.groups()
-
-	if dest == "":
-		return PRINT_TEMPLATE.format(var)
+	if m.group(3) == "":
+		return PRINT_TEMPLATE.format(*m.groups())
 	else:
-		return DUMP_TEMPLATE.format(var, dest)
+		return DUMP_TEMPLATE.format(*m.groups())
 
-reParts = ("^", "#", "(.*?)", "=>", "([A-Za-z0-9_]*)", "$")
+reParts = ("^(\\s*)" "#", "(.*?)", "=>", "([A-Za-z0-9_]*)", "$")
 r = re.compile("\\s*".join(reParts))
 
 formattedCodeLines = [r.sub(repl, line) for line in codeLines]
