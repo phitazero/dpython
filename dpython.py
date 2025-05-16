@@ -26,7 +26,7 @@ def repl(m):
 	else:
 		return DUMP_TEMPLATE.format(*m.groups())
 
-reParts = ("^(\\s*)" "#", "(.*?)", "=>", "([A-Za-z0-9_]*)", "$")
+reParts = ("^(\\s*)" "#", "([^#]*?)", "=>", "([A-Za-z0-9_]*)", "$")
 r = re.compile("\\s*".join(reParts))
 
 formattedCodeLines = [r.sub(repl, line) for line in codeLines]
