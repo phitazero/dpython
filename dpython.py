@@ -20,6 +20,9 @@ except IndexError:
 	print("File not specified")
 	sys.exit()
 
+# getting just the line content, \n's will be brought back later in the code
+codeLines = [line.rstrip("\n") for line in codeLines]
+
 def repl(m):
 	if m.group(3) == "":
 		return PRINT_TEMPLATE.format(*m.groups())
