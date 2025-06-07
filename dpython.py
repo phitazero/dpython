@@ -107,10 +107,10 @@ else:
 
 	for line in proc.stdout:
 		jsonStr = reformatJSON(line)
-		if jsonStr is None: print(line)
+		if jsonStr is None: print(line, end="")
 		else:
 			if stdoutFormatTo == "":
-				print(jsonStr)
+				print(jsonStr, end="")
 			elif stdoutFormatOp == "=>":
 				open(f"{stdoutFormatTo}.json", "w").write(jsonStr)
 			else:
